@@ -38,15 +38,20 @@ export function organize(input){
 }
 const rows=organize(JSON.parse((await load('activities.json')).replace(/^\uFEFF/,'')));
 const safeJSON=JSON.stringify(rows).replaceAll('<','\\u003c');
-const title='理想社区任务站点';
-const description='查理想社区活动、截止日期和积分奖励。按时间或最高奖励排序，快速找到适合你的活动。';
+const title='理想社区积分任务汇总';
+const description='车主活动整理-非官方';
 const attr=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
 const base=process.env.PAGES_URL?.trim();
 const baseUrl=base?new URL(base.endsWith('/')?base:base+'/'):null;
 if(baseUrl&&(baseUrl.protocol!=='https:'||baseUrl.username||baseUrl.password||baseUrl.search||baseUrl.hash))throw Error('PAGES_URL 必须是公开的 HTTPS 站点地址');
-const cover=baseUrl?new URL('share-card.png',baseUrl).href:'./share-card.png';
-const meta='<meta name="description" content="'+attr(description)+'"><meta property="og:type" content="website"><meta property="og:title" content="'+attr(title)+'"><meta property="og:description" content="'+attr(description)+'"><meta property="og:image" content="'+attr(cover)+'"><meta property="og:image:width" content="600"><meta property="og:image:height" content="600"><meta property="og:image:alt" content="理想社区任务站点分享封面">'+(baseUrl?'<meta property="og:url" content="'+attr(baseUrl.href)+'"><link rel="canonical" href="'+attr(baseUrl.href)+'">':'')+'<meta name="twitter:card" content="summary">';
-const html='<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title>'+meta+'</head><body>'+await load('layout.html')+'<script>window.activitySeed='+safeJSON+';</script><script src="./client.js"></script></body></html>';
+const cover=baseUrl?new URL('share-card-v2.png',baseUrl).href:'./share-card-v2.png';
+const layout=await load('layout.html');
+function page(relative){
+ const target=baseUrl?new URL(relative,baseUrl).href:null;
+ const meta='<meta name="description" content="'+attr(description)+'"><meta property="og:type" content="website"><meta property="og:title" content="'+attr(title)+'"><meta property="og:description" content="'+attr(description)+'"><meta property="og:image" content="'+attr(cover)+'"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="600"><meta property="og:image:alt" content="'+attr(title)+'">'+(target?'<meta property="og:url" content="'+attr(target)+'"><link rel="canonical" href="'+attr(target)+'">':'')+'<meta name="twitter:card" content="summary">';
+ return '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title>'+meta+'</head><body>'+layout+'<script>window.activitySeed='+safeJSON+';</script><script src="./client.js"></script></body></html>';
+}
 await mkdir(file('dist/'),{recursive:true});
-await Promise.all([writeFile(file('dist/index.html'),html),writeFile(file('dist/client.js'),await load('client.js')),writeFile(file('dist/activities.json'),JSON.stringify(rows,null,2)+'\n'),writeFile(file('dist/share-card.png'),await readFile(file('share-card.png'))),writeFile(file('dist/.nojekyll'),'')]);
+const image=await readFile(file('share-card.png'));
+await Promise.all([writeFile(file('dist/index.html'),page('')),writeFile(file('dist/share.html'),page('share.html')),writeFile(file('dist/client.js'),await load('client.js')),writeFile(file('dist/activities.json'),JSON.stringify(rows,null,2)+'\n'),writeFile(file('dist/share-card.png'),image),writeFile(file('dist/share-card-v2.png'),image),writeFile(file('dist/.nojekyll'),'')]);
 console.log('已校验并整理 '+rows.length+' 项活动。');
