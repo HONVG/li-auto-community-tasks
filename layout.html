@@ -11,7 +11,7 @@
 
 </div></section>
 <div class="shell">
-<aside aria-label="理想社区活动"><h2><span class="desktop-label">活动</span><span class="mobile-label">理想社区活动</span> <small>12</small></h2><div class="sort"><button data-sort="end" aria-pressed="true">即将截止</button><button data-sort="cap" aria-pressed="false">最高奖励</button></div><div id="lx-list"></div></aside>
+<aside aria-label="理想社区活动"><h2><span class="desktop-label">活动</span><span class="mobile-label">理想社区活动</span> <small>12</small></h2><div class="sort"><button data-sort="end" aria-pressed="true">即将截止</button><button data-sort="cap" aria-pressed="false">最高奖励</button></div><div id="lx-list"></div><p id="lx-visitor-count" data-api="__VISITOR_API_URL__" hidden>累计使用人数 <strong data-total></strong></p></aside>
 <main id="lx-reading"><p id="lx-feedback" class="import-feedback" role="status" hidden></p><button id="lx-back">‹ 返回活动列表</button><article id="lx-article"></article></main>
 </div></div>
 
@@ -30,6 +30,8 @@
 #lx-side h1{font-size:17px;line-height:1.35;font-weight:650}
 #lx-side .masthead .eyebrow{display:block;margin-top:3px}
 #lx-side aside{padding:20px 13px}
+#lx-side #lx-visitor-count{border-top:1px solid var(--line);margin:15px 4px 1px;padding:11px 5px 0;color:var(--muted);font-size:13px}
+#lx-visitor-count strong{margin-left:5px;color:var(--active);font-size:15px;font-variant-numeric:tabular-nums}
 #lx-side .sort button{font-size:13px;white-space:nowrap}
 #lx-side .activity{padding:8px 9px;border-radius:6px;background:transparent}
 #lx-side .activity[aria-pressed=true]{background:light-dark(#e3efeb,#304943);color:var(--active)}

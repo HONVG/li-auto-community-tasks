@@ -45,7 +45,12 @@ const base=process.env.PAGES_URL?.trim();
 const baseUrl=base?new URL(base.endsWith('/')?base:base+'/'):null;
 if(baseUrl&&(baseUrl.protocol!=='https:'||baseUrl.username||baseUrl.password||baseUrl.search||baseUrl.hash))throw Error('PAGES_URL 必须是公开的 HTTPS 站点地址');
 const cover=baseUrl?new URL('share-card-v2.png',baseUrl).href:'./share-card-v2.png';
-const layout=await load('layout.html');
+const visitorEndpoint=JSON.parse(await load('visitor-api.json')).url;
+if(visitorEndpoint!==null){
+ const endpoint=new URL(visitorEndpoint);
+ if(endpoint.protocol!=='https:'||endpoint.username||endpoint.password||endpoint.search||endpoint.hash||endpoint.pathname!=='/visit')throw Error('访问统计地址必须是 HTTPS 的 /visit 接口');
+}
+const layout=(await load('layout.html')).replace('__VISITOR_API_URL__',attr(visitorEndpoint??''));
 function page(relative){
  const target=baseUrl?new URL(relative,baseUrl).href:null;
  const meta='<meta name="description" content="'+attr(description)+'"><meta property="og:type" content="website"><meta property="og:title" content="'+attr(title)+'"><meta property="og:description" content="'+attr(description)+'"><meta property="og:image" content="'+attr(cover)+'"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="600"><meta property="og:image:alt" content="'+attr(title)+'">'+(target?'<meta property="og:url" content="'+attr(target)+'"><link rel="canonical" href="'+attr(target)+'">':'')+'<meta name="twitter:card" content="summary">';

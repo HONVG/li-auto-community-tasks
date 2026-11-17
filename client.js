@@ -54,5 +54,24 @@ q('#lx-url-form').addEventListener('submit',async e=>{
  try{await navigator.clipboard.writeText(input.value);status.textContent='链接已复制。请通过微信发给管理员审核，尚未提交或收录。';}
  catch{input.select();status.textContent='请手动复制链接，通过微信发给管理员审核。';}
 });
+async function loadVisitorCount(){
+ const counter=q('#lx-visitor-count');
+ if(!counter?.dataset.api)return;
+ const controller=new AbortController();
+ const timeout=setTimeout(()=>controller.abort(),5000);
+ try{
+  const response=await fetch(counter.dataset.api,{method:'POST',credentials:'omit',cache:'no-store',signal:controller.signal,referrerPolicy:'no-referrer'});
+  if(!response.ok)return;
+  const {total}=await response.json();
+  if(!Number.isSafeInteger(total)||total<0)return;
+  counter.querySelector('[data-total]').textContent=new Intl.NumberFormat('zh-CN').format(total);
+  counter.hidden=false;
+ }catch{
+  // Keep the activity page usable while the counter is unavailable.
+ }finally{
+  clearTimeout(timeout);
+ }
+}
 render();
+void loadVisitorCount();
 })();
