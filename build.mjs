@@ -30,9 +30,9 @@ export function organize(input){
    const cap=Math.max(one??0,four??0)*tracks;if(!Number.isSafeInteger(cap))throw Error('最高积分超出范围');
    if(!Array.isArray(item.sections)||!item.sections.length)throw Error('至少填写一条创作灵感');
    const sections=item.sections.map(row=>{if(!Array.isArray(row)||row.length!==2)throw Error('创作灵感每条需要标题和内容');return [text(row[0],'灵感标题'),text(row[1],'灵感内容')];});
-   const link=(s,host)=>{if(!s)return undefined;const u=new URL(s);if(u.protocol!=='https:'||u.hostname!==host||u.username||u.password)throw Error('登记或话题链接不是预期来源');return u.href;};
+   const link=(s,...hosts)=>{if(!s)return undefined;const u=new URL(s);if(u.protocol!=='https:'||!hosts.includes(u.hostname)||u.username||u.password)throw Error('登记或话题链接不是预期来源');return u.href;};
    const optionalList=(v,l)=>{if(v==null)return undefined;if(!Array.isArray(v))throw Error(l+'必须是列表');return v.map(x=>text(x,l));};
-   return {id,name,from,end,one,four,cap,stack:tracks>1,tracks,rule:text(item.rule,'活动要求'),rewardDescription:item.rewardDescription==null?undefined:text(item.rewardDescription,'活动奖励说明'),sections,url:url.origin+url.pathname,platforms:optionalList(item.platforms,'发布平台'),topics:optionalList(item.topics,'话题'),notes:optionalList(item.notes,'活动须知'),reg:link(item.reg,'lx.jinshuju.com'),topic:link(item.topic,'li.auto'),communityFourth:item.communityFourth===true};
+   return {id,name,from,end,one,four,cap,stack:tracks>1,tracks,rule:text(item.rule,'活动要求'),rewardDescription:item.rewardDescription==null?undefined:text(item.rewardDescription,'活动奖励说明'),sections,url:url.origin+url.pathname,platforms:optionalList(item.platforms,'发布平台'),topics:optionalList(item.topics,'话题'),notes:optionalList(item.notes,'活动须知'),reg:link(item.reg,'lx.jinshuju.com','lx.jsjform.com'),topic:link(item.topic,'li.auto'),communityFourth:item.communityFourth===true};
   }catch(e){throw Error('第 '+(i+1)+' 条活动（'+(item?.name??'未命名')+'）：'+e.message);}
  }).sort((a,b)=>a.end.localeCompare(b.end)||a.from.localeCompare(b.from)||a.id.localeCompare(b.id));
 }
