@@ -927,7 +927,6 @@
     "topic": "https://li.auto/SfVm0je",
     "url": "https://www.lixiang.com/community/detail/article/2684475.html"
   },
-
   {
     "id": "2685970",
     "name": "在园区用智驾",
@@ -951,7 +950,6 @@
     "reg": "https://lx.jinshuju.com/f/al2ZaV",
     "one": 50,
     "four": 300,
-    "rewardDescription": "单平台 50 积分；四平台均发布且符合要求可获 300 积分。单平台和四平台为不同档位，不相加，同一用户不可重复获奖。",
     "platforms": [
       "小红书",
       "抖音",
@@ -959,8 +957,8 @@
       "微博"
     ],
     "topics": [
-      "#在园区用智驾",
-      "#全家人的理想座驾"
+      "在园区用智驾",
+      "全家人的理想座驾"
     ],
     "communityFourth": false,
     "notes": [
@@ -1003,7 +1001,6 @@
     "reg": "https://lx.jinshuju.com/f/l5Qm2v",
     "one": 50,
     "four": 300,
-    "rewardDescription": "单平台 50 积分；四平台均发布且符合要求可获 300 积分。单平台和四平台为不同档位，不相加，同一用户不可重复获奖。",
     "platforms": [
       "小红书",
       "抖音",
@@ -1011,8 +1008,8 @@
       "微博"
     ],
     "topics": [
-      "#开着L8去滑雪",
-      "#全家人的理想座驾"
+      "开着L8去滑雪",
+      "全家人的理想座驾"
     ],
     "communityFourth": false,
     "notes": [
@@ -1029,5 +1026,4 @@
     "topic": "https://li.auto/bva2gQS",
     "url": "https://www.lixiang.com/community/detail/article/2686175.html"
   }
-
 ]
